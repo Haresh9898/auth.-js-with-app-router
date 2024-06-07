@@ -21,7 +21,7 @@ const Header = async () => {
           ) : null}
           {session?.user?.role == "admin" ? (
             <li>
-              <Link href={"/dashboard"}>Dashboard</Link>
+              <Link href={"/admin/dashboard"}>Dashboard</Link>
             </li>
           ) : null}
           {session?.user ? (

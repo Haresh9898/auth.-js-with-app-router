@@ -1,3 +1,4 @@
+import authConfig from "@/auth.config";
 import { connectToDb, getUserById, saltAndHashPassword } from "@/lib/utils";
 import User from "@/models/User";
 import NextAuth, { CredentialsSignin } from "next-auth";
@@ -5,6 +6,7 @@ import Credentials from "next-auth/providers/credentials";
 // import { saltAndHashPassword } from "@/utils/password";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  ...authConfig,
   providers: [
     Credentials({
       name: "Credentials",
@@ -66,6 +68,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token;
     },
   },
+ 
   pages: {
     signIn: "/login",
     error: "/login",

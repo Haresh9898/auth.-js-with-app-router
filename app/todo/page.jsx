@@ -56,6 +56,7 @@ const page = () => {
       </div>
     );
   }
+
   return (
     <div className="container ">
       <div className="w-1/2 mx-auto">
@@ -82,10 +83,16 @@ const page = () => {
         </form>
         {/* Todos */}
         <div className="w-full flex flex-col gap-5">
-          {todos?.length &&
+          {!todos?.length ? (
+            <div className="w-full  items-center flex justify-center   gap-5">
+              <h1>Todos not found,Please start adding todo</h1>
+            </div>
+          ) : (
+            todos?.length &&
             todos?.map((res) => {
               return <Todo key={res._id} id={res._id} title={res.title} />;
-            })}
+            })
+          )}
         </div>
       </div>
     </div>
