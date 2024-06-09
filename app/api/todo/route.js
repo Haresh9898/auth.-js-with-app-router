@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export const GET = async (request) => {
   try {
     const { user } = await auth();
-    const todos = await Todo.findByI(user?.id);
+    const todos = await Todo.findOne({ user: user?.id });
     return NextResponse.json(
       {
         success: true,
