@@ -66,7 +66,7 @@ const page = () => {
   }
   return (
     <div className="container ">
-      <div className="w-1/2 mx-auto">
+      <div className="md:w-1/2 mx-auto">
         <form onSubmit={formik.handleSubmit}>
           <input
             className={`p-5 border w-full ${
