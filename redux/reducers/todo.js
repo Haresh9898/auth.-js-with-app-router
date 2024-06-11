@@ -7,9 +7,11 @@ export const todoApi = createApi({
     baseUrl: "http://localhost:3000/api/",
     credentials: "include",
   }),
+  tagTypes: ["Todos"],
   endpoints: (builder) => ({
     getUserTodos: builder.query({
       query: () => `todo`,
+      providesTags: ["Todos"],
     }),
     addTodo: builder.mutation({
       query: (body) => {
@@ -19,8 +21,23 @@ export const todoApi = createApi({
           body,
         };
       },
+      invalidatesTags:['Todos']
+    }),
+    deleteTodo: builder.mutation({
+      query: (body) => {
+        return {
+          url: `todo`,
+          method: "DELETE",
+          body,
+        };
+      },
+      invalidatesTags: ["Todos"],
     }),
   }),
 });
 
-export const { useGetUserTodosQuery, useAddTodoMutation } = todoApi;
+export const {
+  useGetUserTodosQuery,
+  useAddTodoMutation,
+  useDeleteTodoMutation,
+} = todoApi;

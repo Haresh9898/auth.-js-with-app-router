@@ -8,11 +8,11 @@ import {
 } from "./routes";
 import authConfig from "./auth.config";
 import NextAuth from "next-auth";
+// import { auth } from "./app/auth";
 const { auth } = NextAuth(authConfig)
 
 export default auth((req) => {
   const isLoogedIn = !!req.auth;
-
   const IsApiAuthPrefix = req.nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoutes = publicRoutes.includes(req.nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(req.nextUrl.pathname);
@@ -22,19 +22,20 @@ export default auth((req) => {
 
   if (isAuthRoute) {
     if (isLoogedIn) {
-      return NextResponse.rewrite(new URL(DEFAULT_LOGIN, req.nextUrl));
+      return NextResponse.redirect(new URL(DEFAULT_LOGIN, req.nextUrl));
     }
     return null;
   }
   if (!isLoogedIn && !isPublicRoutes) {
-    return NextResponse.rewrite(new URL("/login", req.nextUrl));
+    return NextResponse.redirect(new URL("/login", req.nextUrl));
   }
   if (isLoogedIn) {
+    console.log('role====',req.auth?.user?.role);
     if (
       req.auth?.user?.role !== "admin" &&
       req.nextUrl.pathname.startsWith(adminRoutePrefix)
     ) {
-      return NextResponse.rewrite(new URL("/", req.nextUrl));
+      return NextResponse.redirect(new URL("/", req.nextUrl));
     }
     return null;
   }

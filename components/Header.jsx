@@ -1,6 +1,11 @@
-import { auth, signOut } from "@/app/auth";
+import { signOut } from "@/app/auth";
+import authConfig from "@/auth.config";
+import NextAuth from "next-auth";
 import Link from "next/link";
 import React from "react";
+
+const { auth } = NextAuth(authConfig);
+
 const Header = async () => {
   const session = await auth();
   return (

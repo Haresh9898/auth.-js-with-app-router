@@ -34,7 +34,6 @@ const page = () => {
     onSubmit: (data) => {
       startTransition(async () => {
         const result = await signup(data);
-        console.log({ result });
         if (result.success) {
           toast({
             title: result.message,

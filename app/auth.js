@@ -50,15 +50,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
-    async session({ token, session }) {
-      if (token.sub && session.user) {
-        session.user.id = token.sub;
-        session.user.role = token.role;
-      }
-      return session;
-    },
     async jwt({ token }) {
-      console.log({ token });
       if (token.sub) {
         const user = await getUserById(token.sub);
         if (!user) return token;
@@ -68,7 +60,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token;
     },
   },
- 
+  session: {
+    strategy: "jwt",
+  },
+
   pages: {
     signIn: "/login",
     error: "/login",

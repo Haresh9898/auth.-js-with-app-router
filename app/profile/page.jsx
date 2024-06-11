@@ -33,6 +33,9 @@ const page = async () => {
               <span className="bold ">Education : </span>{respone?.education}
             </p>
             <p className="my-4">
+              <span className="bold ">Role : </span>{respone?.role}
+            </p>
+            <p className="my-4">
               <span className="bold ">Registered at : </span>{String(respone?.createdAt).split("T")[0]}
             </p>
             <ProfileBtn />
