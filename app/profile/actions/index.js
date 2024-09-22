@@ -12,6 +12,7 @@ const { auth } = NextAuth(authConfig)
 export const getUserProfile = async () => {
   const { user: sessionUser } = await auth();
   await connectToDb();
+  console.log('sessionUser========',sessionUser);
   const user = await User.findOne({ _id: sessionUser?.id });
   if (!user || user == null) {
     return NextResponse.json(

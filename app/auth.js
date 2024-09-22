@@ -4,6 +4,7 @@ import User from "@/models/User";
 import NextAuth, { CredentialsSignin } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 // import { saltAndHashPassword } from "@/utils/password";
+import GitHub from "next-auth/providers/github";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
@@ -48,9 +49,41 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return user;
       },
     }),
+    GitHub({
+      clientId: process.env.AUTH_GITHUB_ID,
+      clientSecret: process.env.AUTH_GITHUB_SECRET,
+      profile: async (profile) => {
+        return {
+          name: profile.name || profile?.login,
+          email: profile.email,
+          githubId: String(profile.id),
+        };
+      },
+    }),
   ],
   callbacks: {
-    async jwt({ token }) {
+    async signIn({ user, account, profile }) {
+      await connectToDb();
+      if (account.provider === "github") {
+        console.log("profile.id======", profile.id);
+        let existingUser =
+          profile.id && (await User.findOne({ githubId: profile.id }));
+        if (!existingUser) {
+          existingUser = await User.create({
+            name: profile?.name || profile?.login,
+            email: profile.email,
+            githubId: String(profile.id),
+          });
+          user.id = existingUser._id.toString();
+          return true;
+        } else {
+          user.id = existingUser?._id.toString();
+          return true;
+        }
+      }
+      return true;
+    },
+    async jwt({ token, user }) {
       if (token.sub) {
         const user = await getUserById(token.sub);
         if (!user) return token;
@@ -66,6 +99,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
   pages: {
     signIn: "/login",
-    error: "/login",
+
+    // NOTE : will create new page for error handling related to auth
+    error: "/login", 
   },
 });

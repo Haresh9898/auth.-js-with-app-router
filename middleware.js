@@ -8,7 +8,6 @@ import {
 } from "./routes";
 import authConfig from "./auth.config";
 import NextAuth from "next-auth";
-// import { auth } from "./app/auth";
 const { auth } = NextAuth(authConfig)
 
 export default auth((req) => {

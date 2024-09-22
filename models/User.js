@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -25,9 +26,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    googleId: {
+    githubId: {
       type: String,
       required: false,
+      unique: true,
     },
   },
   {

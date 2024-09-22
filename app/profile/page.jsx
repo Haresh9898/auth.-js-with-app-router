@@ -1,14 +1,11 @@
-import { auth, signOut } from "../auth";
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
-  CardTitle,
+  CardTitle
 } from "@/components/ui/card";
-import ProfileBtn from "./components/ProfileBtn";
 import { getUserProfile } from "./actions";
+import ProfileBtn from "./components/ProfileBtn";
 
 const page = async () => {
  const respone = await getUserProfile();

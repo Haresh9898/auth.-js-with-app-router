@@ -12,7 +12,6 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
-import { ThemeBtn } from "./ThemeBtn";
 
 const { auth } = NextAuth(authConfig);
 
@@ -47,7 +46,6 @@ const Header = async () => {
             )}
           </ul>
           <div className="flex items-center gap-5">
-            <ThemeBtn />
             <SheetTrigger>
               <Menu className="md:hidden" />
             </SheetTrigger>
