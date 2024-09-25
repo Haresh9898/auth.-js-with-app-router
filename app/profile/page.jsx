@@ -5,10 +5,11 @@ import {
   CardTitle
 } from "@/components/ui/card";
 import { getUserProfile } from "./actions";
-import ProfileBtn from "./components/ProfileBtn";
 
 const page = async () => {
- const respone = await getUserProfile();
+ const response = await getUserProfile();
+ const date = new Date(response?.createdAt);
+const formattedDate = date.toLocaleString();
   return (
     <>
       {/* {
@@ -21,21 +22,20 @@ const page = async () => {
           </CardHeader>
           <CardContent>
             <p className="my-4">
-              <span className="bold">Name : </span>{respone?.name}
+              <span className="bold">Name : </span>{response?.name}
             </p>
             <p className="my-4">
-              <span className="bold ">Email : </span>{respone?.email}
+              <span className="bold ">Email : </span>{response?.email}
             </p>
             <p className="my-4">
-              <span className="bold ">Education : </span>{respone?.education}
+              <span className="bold ">Education : </span>{response?.education}
             </p>
             <p className="my-4">
-              <span className="bold ">Role : </span>{respone?.role}
+              <span className="bold ">Role : </span>{response?.role}
             </p>
             <p className="my-4">
-              <span className="bold ">Registered at : </span>{String(respone?.createdAt).split("T")[0]}
+              <span className="bold ">Registered at : </span>{formattedDate}
             </p>
-            <ProfileBtn />
           </CardContent>
         </Card>
       </div>

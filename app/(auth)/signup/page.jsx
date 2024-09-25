@@ -3,14 +3,17 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { object, string } from "yup";
-import { useFormik } from "formik";
-import { useTransition } from "react";
-import { login, signup } from "../action";
 import { useToast } from "@/components/ui/use-toast";
+import { useFormik } from "formik";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
+import { object, string } from "yup";
+import { signup } from "../action";
 
 const page = () => {
+  const [isGithubLoading, setIsGithubLoading] = useState(false);
+
   const { toast } = useToast();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -159,6 +162,22 @@ const page = () => {
               )}
             </Button>
           </form>
+          <Button
+            className="mt-5"
+            type="button"
+            disabled={isGithubLoading}
+            onClick={async () => {
+              try {
+                setIsGithubLoading(true);
+                await signIn("github");
+                setIsGithubLoading(false);
+              } catch (error) {
+                console.log(error);
+              } 
+            }}
+          >
+            {isGithubLoading ? "Loading..." : "Sign in with Github"}
+          </Button>
         </CardContent>
       </Card>
     </div>

@@ -10,7 +10,7 @@ import { login } from "../action";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import Loader from "@/components/Loader";
+import Link from "next/link";
 
 const page = () => {
   const [isPending, startTransition] = useTransition();
@@ -135,13 +135,20 @@ const page = () => {
                 setIsGithubLoading(false);
               } catch (error) {
                 console.log(error);
-              } finally {
-              
               }
             }}
           >
             {isGithubLoading ? "Loading..." : "Sign in with Github"}
           </Button>
+
+          <div className="mt-3">
+            <p>
+              Don't have an account?{" "}
+              <Link href="/signup" className="text-green-600 underline">
+                Sign up
+              </Link>
+            </p>
+          </div>
         </CardContent>
       </Card>
     </div>

@@ -1,24 +1,22 @@
 "use server";
 
-import { signIn } from "../auth";
 import { connectToDb } from "@/lib/utils";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
+import { signIn } from "../auth";
 
 export const login = async ({ email, password }) => {
   try {
-    console.log('login kar le===========');
     await signIn("credentials", {
       email,
       password,
       redirect: false,
     });
     return {
-        success: true,
-        message: 'Login successfully',
-      };
+      success: true,
+      message: "Login successfully",
+    };
   } catch (error) {
-    console.log('Login err-r=============',error.message);
     return {
       success: false,
       message: error.message,
@@ -29,7 +27,6 @@ export const login = async ({ email, password }) => {
 export const signup = async ({ email, password, education, name }) => {
   try {
     await connectToDb();
-    console.log("hello comr----------signup");
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.findOne({ email });
     if (user) {
@@ -57,3 +54,5 @@ export const signup = async ({ email, password, education, name }) => {
     };
   }
 };
+
+
